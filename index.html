@@ -157,7 +157,7 @@
         <h2>員工資訊確認</h2>
         <div class="input-group">
             <label>Employee ID</label>
-            <input type="text" id="empId" placeholder="[請輸入8碼員編]" onkeypress="if(event.keyCode==13) searchEmployee()">
+            <input type="text" id="empId" placeholder=" 請輸入8碼員編 " onkeypress="if(event.keyCode==13) searchEmployee()">
         </div>
         <button class="search-btn" onclick="searchEmployee()">Finger Lickin' Search</button>
 
@@ -262,11 +262,11 @@
                 <div class="info-row"><span class="info-label">姓名</span>${employee["姓名"]}</div>
                 <div class="info-row"><span class="info-label">信箱</span>${employee["EMAIL"]}</div>
                 <div class="info-row"><span class="info-label">電話</span>0${employee["手機號碼"]}</div>
-                <a href="https://line.me/ti/p/PQQ-nad9M_" target="_blank" class="line-btn">資訊有誤？聯絡 Mifa</a>
+                <a href="https://line.me/ti/p/PQQ-nad9M_" target="_blank" class="line-btn">資訊有誤？聯絡店長修正!</a>
             `;
         } else {
             resultDiv.className = "error";
-            resultDiv.innerHTML = "資訊錯誤請聯絡玫華";
+            resultDiv.innerHTML = "員編錯誤，請聯絡店長確認";
         }
     }
 </script>
