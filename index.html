@@ -3,49 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>員工資訊查詢系統</title>
+    <title>員工資訊查詢系統 - KFC Edition</title>
     <style>
-        body { font-family: "Microsoft JhengHei", sans-serif; display: flex; justify-content: center; padding: 40px 20px; background-color: #f0f2f5; }
-        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
-        h2 { color: #1a73e8; text-align: center; margin-bottom: 25px; }
-        .input-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; }
-        input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; transition: border-color 0.3s; }
-        input:focus { border-color: #1a73e8; outline: none; }
-        .search-btn { width: 100%; padding: 12px; background-color: #1a73e8; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; margin-bottom: 10px; }
-        .search-btn:hover { background-color: #1557b0; }
-        
-        #result { margin-top: 25px; padding: 20px; border-radius: 8px; display: none; }
-        .success { background-color: #e8f0fe; color: #1967d2; border-left: 5px solid #1a73e8; }
-        .error { background-color: #fce8e6; color: #c5221f; border-left: 5px solid #d93025; display: block !important; text-align: center; font-weight: bold; }
-        
-        .info-row { margin-bottom: 10px; font-size: 16px; }
-        .info-label { font-weight: bold; width: 80px; display: inline-block; }
-        
-        /* LINE 按鈕樣式 */
-        .line-btn { 
-            display: inline-block; width: 100%; padding: 10px; margin-top: 15px;
-            background-color: #00B900; color: white; text-align: center; 
-            text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px;
+        :root {
+            --kfc-red: #e4002b;
+            --dark-grey: #333333;
+            --light-grey: #f8f8f8;
+            --white: #ffffff;
+            --border-grey: #dcdcdc;
         }
-        .line-btn:hover { background-color: #009900; }
+
+        body { 
+            font-family: "Microsoft JhengHei", sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: var(--light-grey); 
+            color: var(--dark-grey);
+        }
+
+        /* 肯德基條紋插畫裝飾 */
+        .kfc-stripes {
+            height: 10px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--kfc-red),
+                var(--kfc-red) 20px,
+                var(--white) 20px,
+                var(--white) 40px
+            );
+            border-radius: 12px 12px 0 0;
+        }
+
+        .container { 
+            background: var(--white); 
+            width: 100%; 
+            max-width: 400px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+            overflow: hidden;
+            border-bottom: 5px solid var(--kfc-red);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        h2 { 
+            text-align: center; 
+            margin-top: 0;
+            font-size: 24px;
+            color: var(--dark-grey);
+            letter-spacing: 1px;
+        }
+
+        .input-group { margin-bottom: 25px; }
+        
+        label { 
+            display: block; 
+            margin-bottom: 10px; 
+            font-weight: bold; 
+            font-size: 14px;
+            color: #666;
+        }
+
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid var(--border-grey); 
+            border-radius: 4px; 
+            box-sizing: border-box; 
+            font-size: 16px; 
+            background-color: #fafafa;
+            transition: all 0.3s;
+        }
+
+        input:focus { 
+            border-color: var(--kfc-red); 
+            outline: none; 
+            box-shadow: 0 0 5px rgba(228, 0, 43, 0.2);
+        }
+
+        .search-btn { 
+            width: 100%; 
+            padding: 14px; 
+            background-color: var(--dark-grey); 
+            color: var(--white); 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: bold; 
+            transition: background 0.3s;
+        }
+
+        .search-btn:hover { 
+            background-color: var(--kfc-red); 
+        }
+        
+        #result { 
+            margin-top: 25px; 
+            padding: 20px; 
+            border-radius: 8px; 
+            display: none; 
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .success { 
+            background-color: var(--light-grey); 
+            border: 1px solid var(--border-grey);
+            color: var(--dark-grey);
+        }
+
+        .error { 
+            background-color: #fff0f0; 
+            color: var(--kfc-red); 
+            border: 1px dashed var(--kfc-red); 
+            display: block !important; 
+            text-align: center; 
+            font-weight: bold; 
+        }
+        
+        .info-row { margin-bottom: 12px; font-size: 16px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .info-label { font-weight: bold; color: #888; width: 60px; display: inline-block; font-size: 14px; }
+        
+        .line-btn { 
+            display: block; 
+            width: 100%; 
+            padding: 10px; 
+            margin-top: 20px;
+            background-color: #00B900; 
+            color: white; 
+            text-align: center; 
+            text-decoration: none; 
+            border-radius: 4px; 
+            font-weight: bold; 
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>員工資訊查詢系統</h2>
-    <div class="input-group">
-        <label for="empId">員編查詢：</label>
-        <input type="text" id="empId" placeholder="[請輸入8碼員編]" onkeypress="if(event.keyCode==13) searchEmployee()">
-    </div>
-    <button class="search-btn" onclick="searchEmployee()">立即查詢</button>
+    <div class="kfc-stripes"></div>
+    <div class="content">
+        <h2>員工資訊確認</h2>
+        <div class="input-group">
+            <label>Employee ID</label>
+            <input type="text" id="empId" placeholder="[請輸入8碼員編]" onkeypress="if(event.keyCode==13) searchEmployee()">
+        </div>
+        <button class="search-btn" onclick="searchEmployee()">Finger Lickin' Search</button>
 
-    <div id="result"></div>
+        <div id="result"></div>
+    </div>
 </div>
 
 <script>
-    // 完整員工資料庫
     const employeeData = [
         {"姓名": "鍾光原", "EMAIL": "123@gmail.com", "手機號碼": 975586419, "正式員編": 80256853},
         {"姓名": "王禾裕", "EMAIL": "hugo651227@gmail.com", "手機號碼": 958308661, "正式員編": 80248970},
@@ -138,16 +258,15 @@
         if (employee) {
             resultDiv.className = "success";
             resultDiv.style.display = "block";
-            // 這裡顯示資訊，並在最後加入 LINE 按鈕
             resultDiv.innerHTML = `
-                <div class="info-row"><span class="info-label">姓名：</span>${employee["姓名"]}</div>
-                <div class="info-row"><span class="info-label">信箱：</span>${employee["EMAIL"]}</div>
-                <div class="info-row"><span class="info-label">電話：</span>0${employee["手機號碼"]}</div>
-                <a href="https://line.me/ti/p/PQQ-nad9M_" target="_blank" class="line-btn">資訊有誤？聯絡 Mifa 修正</a>
+                <div class="info-row"><span class="info-label">姓名</span>${employee["姓名"]}</div>
+                <div class="info-row"><span class="info-label">信箱</span>${employee["EMAIL"]}</div>
+                <div class="info-row"><span class="info-label">電話</span>0${employee["手機號碼"]}</div>
+                <a href="https://line.me/ti/p/PQQ-nad9M_" target="_blank" class="line-btn">資訊有誤？聯絡 Mifa</a>
             `;
         } else {
             resultDiv.className = "error";
-            resultDiv.innerHTML = "員工編號，請聯絡玫華確認";
+            resultDiv.innerHTML = "資訊錯誤請聯絡玫華";
         }
     }
 </script>
