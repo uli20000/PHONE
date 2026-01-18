@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>員工資訊查詢系統 - KFC Edition</title>
     <style>
+        /* 強制套用微軟正黑體 */
+        * {
+            font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
+        }
+
         :root {
             --kfc-red: #e4002b;
             --dark-grey: #333333;
@@ -14,7 +19,6 @@
         }
 
         body { 
-            font-family: "Microsoft JhengHei", sans-serif; 
             display: flex; 
             justify-content: center; 
             align-items: center;
@@ -26,7 +30,7 @@
 
         /* 肯德基條紋插畫裝飾 */
         .kfc-stripes {
-            height: 10px;
+            height: 12px;
             background: repeating-linear-gradient(
                 90deg,
                 var(--kfc-red),
@@ -42,9 +46,9 @@
             width: 100%; 
             max-width: 400px; 
             border-radius: 12px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
             overflow: hidden;
-            border-bottom: 5px solid var(--kfc-red);
+            border-bottom: 6px solid var(--kfc-red);
         }
 
         .content {
@@ -55,8 +59,9 @@
             text-align: center; 
             margin-top: 0;
             font-size: 24px;
+            font-weight: 900;
             color: var(--dark-grey);
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
         .input-group { margin-bottom: 25px; }
@@ -66,24 +71,25 @@
             margin-bottom: 10px; 
             font-weight: bold; 
             font-size: 14px;
-            color: #666;
+            color: #777;
         }
 
         input { 
             width: 100%; 
-            padding: 12px; 
-            border: 1px solid var(--border-grey); 
-            border-radius: 4px; 
+            padding: 14px; 
+            border: 2px solid var(--border-grey); 
+            border-radius: 8px; 
             box-sizing: border-box; 
             font-size: 16px; 
             background-color: #fafafa;
             transition: all 0.3s;
+            text-align: center;
         }
 
         input:focus { 
             border-color: var(--kfc-red); 
             outline: none; 
-            box-shadow: 0 0 5px rgba(228, 0, 43, 0.2);
+            background-color: #fff;
         }
 
         .search-btn { 
@@ -92,61 +98,95 @@
             background-color: var(--dark-grey); 
             color: var(--white); 
             border: none; 
-            border-radius: 4px; 
+            border-radius: 8px; 
             cursor: pointer; 
             font-size: 16px; 
             font-weight: bold; 
-            transition: background 0.3s;
+            transition: all 0.3s;
+            box-shadow: 0 4px 0px #000;
         }
 
         .search-btn:hover { 
             background-color: var(--kfc-red); 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0px #b00022;
+        }
+
+        .search-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0px #b00022;
         }
         
         #result { 
             margin-top: 25px; 
             padding: 20px; 
-            border-radius: 8px; 
+            border-radius: 12px; 
             display: none; 
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.4s ease-out;
+            text-align: center; /* 讓內部文字預設居中 */
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .success { 
-            background-color: var(--light-grey); 
+            background-color: #fcfcfc; 
             border: 1px solid var(--border-grey);
-            color: var(--dark-grey);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.02);
         }
 
         .error { 
             background-color: #fff0f0; 
             color: var(--kfc-red); 
-            border: 1px dashed var(--kfc-red); 
+            border: 2px dashed var(--kfc-red); 
             display: block !important; 
-            text-align: center; 
             font-weight: bold; 
         }
         
-        .info-row { margin-bottom: 12px; font-size: 16px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        .info-label { font-weight: bold; color: #888; width: 60px; display: inline-block; font-size: 14px; }
+        .info-container {
+            text-align: left; /* 顯示資訊時文字靠左對齊比較好讀 */
+            display: inline-block;
+            margin: 0 auto;
+        }
+
+        .info-row { 
+            margin-bottom: 12px; 
+            font-size: 17px; 
+            border-bottom: 1px solid #eee; 
+            padding-bottom: 5px; 
+        }
+        .info-label { 
+            font-weight: bold; 
+            color: #999; 
+            width: 50px; 
+            display: inline-block; 
+            font-size: 13px; 
+        }
         
+        /* LINE 按鈕置中優化 */
+        .line-btn-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
         .line-btn { 
-            display: block; 
-            width: 100%; 
-            padding: 10px; 
+            display: inline-block; 
+            width: 90%; 
+            padding: 12px; 
             margin-top: 20px;
             background-color: #00B900; 
             color: white; 
             text-align: center; 
             text-decoration: none; 
-            border-radius: 4px; 
+            border-radius: 50px; /* 圓角膠囊型 */
             font-weight: bold; 
-            font-size: 14px;
+            font-size: 15px;
+            transition: background 0.3s;
         }
+        .line-btn:hover { background-color: #009900; }
     </style>
 </head>
 <body>
@@ -156,10 +196,10 @@
     <div class="content">
         <h2>員工資訊確認</h2>
         <div class="input-group">
-            <label> 員工 ID </label>
-            <input type="text" id="empId" placeholder=" 請輸入8碼員編 " onkeypress="if(event.keyCode==13) searchEmployee()">
+            <label>Employee ID</label>
+            <input type="text" id="empId" placeholder="[請輸入8碼員編]" maxlength="8" onkeypress="if(event.keyCode==13) searchEmployee()">
         </div>
-        <button class="search-btn" onclick="searchEmployee()">Finger Lickin' Search</button>
+        <button class="search-btn" onclick="searchEmployee()">立即查詢資訊</button>
 
         <div id="result"></div>
     </div>
@@ -259,14 +299,18 @@
             resultDiv.className = "success";
             resultDiv.style.display = "block";
             resultDiv.innerHTML = `
-                <div class="info-row"><span class="info-label">姓名</span>${employee["姓名"]}</div>
-                <div class="info-row"><span class="info-label">信箱</span>${employee["EMAIL"]}</div>
-                <div class="info-row"><span class="info-label">電話</span>0${employee["手機號碼"]}</div>
-                <a href="https://line.me/ti/p/PQQ-nad9M_" target="_blank" class="line-btn">資訊有誤？聯絡店長修正!</a>
+                <div class="info-container">
+                    <div class="info-row"><span class="info-label">姓名</span>${employee["姓名"]}</div>
+                    <div class="info-row"><span class="info-label">信箱</span>${employee["EMAIL"]}</div>
+                    <div class="info-row"><span class="info-label">電話</span>0${employee["手機號碼"]}</div>
+                </div>
+                <div class="line-btn-wrapper">
+                    <a href="https://line.me/ti/p/PQQ-nad9M_" target="_blank" class="line-btn">資訊有誤？聯絡店長修正</a>
+                </div>
             `;
         } else {
             resultDiv.className = "error";
-            resultDiv.innerHTML = "員編錯誤，請聯絡店長確認";
+            resultDiv.innerHTML = "員工編號錯誤，請聯絡玫華確認";
         }
     }
 </script>
